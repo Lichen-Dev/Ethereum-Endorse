@@ -2,7 +2,6 @@ pragma solidity ^0.8.10;
 
 interface NFT{
     
-    function tokenURI(uint256 tokenId) external view returns (string memory);
     function ownerOf(uint256 tokenId) external view returns (address) ;
 
 }
@@ -11,7 +10,6 @@ contract EthereumEndorse {
 
     struct SignObject{
 
-     string URI;
      address[99] Signatures;
      uint ArrayPosition;
      bool setvalues;
@@ -19,11 +17,6 @@ contract EthereumEndorse {
     }
 
  mapping(bytes => SignObject) public SignObjects;
-
-function GetOwner(uint256 tokenId, address NFTAddress) public returns (address){
-
-   return NFT(NFTAddress).ownerOf(tokenId);
-}
 
 function sign(address NFTAddress, uint256 tokenId) public returns(bytes memory){
      uint a;
