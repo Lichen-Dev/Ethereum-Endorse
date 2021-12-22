@@ -10,7 +10,7 @@ contract EthereumEndorse {
 
     struct SignObject{
 
-     address[99] Signatures;
+     mapping(uint => address) Signatures;
      uint ArrayPosition;
      bool setvalues;
 
@@ -29,10 +29,6 @@ function sign(address NFTAddress, uint256 tokenId) public returns(bytes memory){
     Concatenated = abi.encodePacked(NFTAddress, tokenId);
     SignObject storage SignObject_ = SignObjects[Concatenated];
 
-    if (SignObject_.setvalues!=true){
-            SignObject_.setvalues=true;
-    }
-
     for(a=1; a<99; a++){
 
         if (SignObject_.Signatures[a]==msg.sender){
@@ -41,22 +37,19 @@ function sign(address NFTAddress, uint256 tokenId) public returns(bytes memory){
     }
 
     if(SenderSigned != true){
-        
         SignObject_.ArrayPosition++;
         SignObject_.Signatures[SignObject_.ArrayPosition]=msg.sender;
-    
     }
     return (Concatenated);
-
-
     }
 
  
- function GetSignatures(bytes memory Concatenated) public returns(address[99] memory){
+ function GetSignatures(bytes memory Concatenated, uint ArrayPosition) public view returns(address){
      SignObject storage SignObject_ = SignObjects[Concatenated];
-     return SignObject_.Signatures;
+     return SignObject_.Signatures[ArrayPosition] ;   
  }
 
-}
-
-
+ function GetSignatureAmount(bytes memory Concatenated) public view returns(uint){
+     SignObject storage SignObject_ = SignObjects[Concatenated];
+     return SignObject_.ArrayPosition;
+ }
