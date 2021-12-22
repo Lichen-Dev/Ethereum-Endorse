@@ -9,11 +9,8 @@ interface NFT{
 contract EthereumEndorse {
 
     struct SignObject{
-
      mapping(uint => address) Signatures;
      uint ArrayPosition;
-     bool setvalues;
-
     }
 
  mapping(bytes => SignObject) public SignObjects;
@@ -29,7 +26,7 @@ function sign(address NFTAddress, uint256 tokenId) public returns(bytes memory){
     Concatenated = abi.encodePacked(NFTAddress, tokenId);
     SignObject storage SignObject_ = SignObjects[Concatenated];
 
-    for(a=1; a<99; a++){
+    for(a=1; a<((SignObject_.ArrayPosition)+1); a++){
 
         if (SignObject_.Signatures[a]==msg.sender){
             SenderSigned=true;
@@ -53,3 +50,7 @@ function sign(address NFTAddress, uint256 tokenId) public returns(bytes memory){
      SignObject storage SignObject_ = SignObjects[Concatenated];
      return SignObject_.ArrayPosition;
  }
+
+}
+
+
